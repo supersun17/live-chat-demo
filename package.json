@@ -1,0 +1,31 @@
+{
+  "name": "live-chat-demo-2017",
+  "version": "0.0.0",
+  "description": "A live chat demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supersun17/live-chat-demo-2017.git"
+  },
+  "keywords": [
+    "Typescript",
+    "Socket.IO",
+    "Redis",
+    "Node.js",
+    "MangoDB"
+  ],
+  "author": "Ming Sun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supersun17/live-chat-demo-2017/issues"
+  },
+  "homepage": "https://github.com/supersun17/live-chat-demo-2017#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.2",
+    "typescript": "^2.5.3"
+  }
+}
