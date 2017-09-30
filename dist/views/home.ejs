@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>LAVISHE</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://omar-faruque.com/work/LAVISHE/css/stylee.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bowlby+One|Lobster+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Chewy" rel="stylesheet">
+    <link rel="stylesheet" href="http://omar-faruque.com/work/bumple/css/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .counter-wrap {
+            position: relative;
+            z-index: 10;
+        }
+
+        .counter {
+
+            color: #fff;
+            margin: 0 auto ;
+            overflow: hidden;
+            max-width: 480px;
+        }
+
+        .countdown .count-int {
+ font-family: 'Open Sans Condensed', sans-serif;
+            display: block;
+            font-size: 48px;
+            font-weight: 300;
+
+
+        }
+
+          .fff{
+              border-right: 2px solid white;
+        }
+
+        .countdown .count-text {
+            font-size: 16px;
+        }
+       body{
+
+
+           background: /* top, transparent red, faked with gradient */
+           linear-gradient(
+                   rgba(0, 0, 0, 0.4),
+                   rgba(0, 0, 0, 0.4)
+           ),
+               /* bottom, image */
+           url(images/bg.jpg);
+
+           background-attachment: fixed;
+           background-position: center;
+           background-size: cover;
+           color: #ceb27e; 
+/*           color: white;*/
+           background-repeat: no-repeat;
+
+
+        }
+       h1,p{
+         color: #ceb27e;
+/*           color: white;*/
+       }
+        .btt {
+/*            color: #fff;*/
+            color: black
+            border-color: #ceb27e;
+            background: #ceb27e !important;
+/*            border-color: #0080da;*/
+/*            background: #0080da !important;*/
+        }
+
+        .yy{
+             font-size: 70px;
+         }      .rr{
+             font-size: 60px;
+         }
+
+
+        @media only screen and (max-width: 700px) {
+            .fff{
+                border-right: none;
+            }
+            .countdown .count-int{
+                font-size: 35px;
+            }
+            .yy{
+                font-size: 40px;
+            }
+            .rr{
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+<body class="red">
+<div style="margin-top: 60px"></div>
+<div class="container text-center">
+    
+
+    <div class="row">
+        <div class="col-xs-12 ">
+            <!--<h1 style="font-family: 'Chewy', cursive;;font-size: 50px" class="text-uppercase wow flip">turtle foundation</h1>-->
+
+            <br>
+            <!--<h1 style="font-family: 'Open Sans Condensed', sans-serif;font-weight:300" class="text-uppercase wow fadeInDown yy">Lavishe</h1>-->
+<!--            style="max-width:150px"-->
+            <img src="images/logo.png" alt="" class="wow flip" style="max-width:270px">
+<!--            <p style="margin-top: 10px;font-size: 20px;">Luxury is never having to lift a finger, literally.</p>-->
+
+            <br>
+            <h1 style="font-family: 'Open Sans Condensed', sans-serif;font-weight:300;font-size: 40px;" class=" rr text-uppercase wow fadeInDown">Luxury is never having to lift a finger, literally.</h1>
+
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            <div style="margin-top: 40px" class="hidden-xs"></div>
+            <div style="margin-top: 30px" class="visible-xs"></div>
+            <h2 class="time wow fadeInUp" style="font-family: 'Open Sans Condensed', sans-serif;"></h2>
+            <div style="padding: 60px;" ></div>
+          
+        </div>
+
+    </div>
+<!--    //enter email row//-->
+    <div class="row" style="margin-top: 40px;margin-bottom: 40px">
+        <div class="gg" style="max-width: 70%;margin: 0 auto">
+            <button onclick="getURL()" style="color: #221F20;font-family: 'Gillsans-SemiBold', sans-serif;font-size: 21px;padding: 5px 30px;border: none; background-color: #ceb27e;">Get Early Access</button> 
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="http://omar-faruque.com/work/lion/js/jquery.jcountdown.js"></script>
+<script src="http://omar-faruque.com/work/bumple/js/wow.min.js"></script>
+<script>
+    $(".time").countdown({
+        date: "november 15, 2017 16:00:00",
+        leadingZero: true,
+        htmlTemplate: '<div id="counter-day" class="countdown col-md-3 col-xs-6 col-sm-3 fff"><div><span class="count-int">%d</span><span class="count-text ff">Days</span></div></div><div id="counter-hour" class="countdown col-md-3 col-xs-6 col-sm-3 fff" ><div><span class="count-int">%h</span><span class="count-text ff">Hours</span></div></div><div id="counter-min" class="countdown col-md-3 col-xs-6 col-sm-3 fff"><div><span class="count-int">%i</span><span class="count-text ff">Minutes</span></div></div><div id="counter-sec" class="countdown col-md-3 col-xs-6 col-sm-3 c_last"><div><span class="count-int">%s</span><span class="count-text">Seconds</span></div></div>',
+    });
+    function getURL (){
+        var currentURL = window.location.href; 
+            console.log(currentURL);
+        var membershipURL = currentURL + "memberships";
+            console.log(membershipURL);
+        location.href = membershipURL
+    }
+    
+</script>
+<script>
+
+    new WOW().init();
+</script>
+</body>
+</html>
