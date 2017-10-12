@@ -1,0 +1,19 @@
+{
+  "name": "live-chat-demo-2017",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "s": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supersun17/live-chat-demo-2017.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supersun17/live-chat-demo-2017/issues"
+  },
+  "homepage": "https://github.com/supersun17/live-chat-demo-2017#readme"
+}
