@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/supersun17/live-chat-demo-2017/issues"
   },
-  "homepage": "https://github.com/supersun17/live-chat-demo-2017#readme"
+  "homepage": "https://github.com/supersun17/live-chat-demo-2017#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
