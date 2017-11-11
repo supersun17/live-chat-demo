@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>CHAT ROOM - AUTHENTICATION</title> 
+  <!-- Bootstrap -->
+  <link href="/css/bootstrap.css" rel="stylesheet">  
+  
+  <style> 
+    body {
+      padding-top: 70px;
+      padding-bottom: 30px;
+    }      
+    h1 {
+      text-align: center;
+    }
+    p {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Ming Sun</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+  <div class="container text-center">
+      <div class="row">
+        <div class="jumbotron">
+        <h1>Chat Room Register/Login</h1>
+        <p>This register requires no password, only an User name for message record.</p>
+        <form id="form-auth">
+          <div>
+            <input name="username" placeholder="Type in User Name:" required style="width: 300px" onclick="stateSwitch('waiting')">
+            <span id="state" class="label label-default">waiting</span>
+          </div>
+          <br>
+          <div>
+            <button id="btn-submit" type="submit" class="btn btn-lg btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+      </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <script type="text/javascript">
+    $('#form-auth').submit(function(e) {
+      e.preventDefault();
+      submit();
+    });
+
+    function submit() {
+      var newAccount = {
+        username: $('input[name=username]').val(),
+      }
+        console.log(newAccount);
+      $.ajax({
+        type: "POST",
+        dataType:"json",
+        url: '/chatroom-auth',
+        data: newAccount,
+        success: function(res) {
+          if(res.status == 'DUP') {
+            alert('This username is already taken');
+            stateSwitch('failed');
+          } else if(res.status == 'Done') {
+            alert('Your username is registered');
+            stateSwitch('success');
+          }
+        },
+        error: function(error) {
+          console.log(error.responseText);
+        }
+      });
+    }
+
+    function stateSwitch(state) {
+      $('#state').removeClass();
+      $('#state').text(state);
+      switch(state) {
+        case 'waiting':
+          $('#state').addClass('label label-default');
+          break;
+        case 'success':
+          $('#state').addClass('label label-success');
+          break;
+        case 'failed':
+          $('#state').addClass('label label-danger');
+          break;
+      }
+    }
+
+  </script>
+</body>
+</html>
