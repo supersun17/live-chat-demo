@@ -42,25 +42,25 @@ function UsersDB() {
 
 UsersDB.prototype.getUser = function(username, callback) {
 	this.Users.find({ username: username }, function(err, resultUser) {
-		if(err) 
-			throw err;
-		if(err)
+		if(err) {
+			console.log(err);
 			callback(null);
-		else
+		} else {
+			console.log(resultUser);
 			callback(resultUser);
-		console.log(resultUser);
+		}
 	});
 };
 
 UsersDB.prototype.loginUser = function(user, callback) {
 	this.Users.find(user, function(err, resultUser) {
-		if(err) 
-			throw err;
-		if(err)
+		if(err) {
+			console.log(err);
 			callback(null);
-		else
+		} else {
+			console.log(resultUser);
 			callback(resultUser);
-		console.log(resultUser);
+		}
 	});
 }
 
@@ -68,37 +68,41 @@ UsersDB.prototype.regUser = function(user, callback) {
 	var newUser = this.Users(user);
 
 	newUser.save(function(err) {
-		if(err) 
-			throw err;
-		if(err) 
-			callback(false);
-		else 
-			callback(true);
-		console.log('User created!');
+		if(err) { 
+			if(err.code == '11000') {
+				callback('Dup');
+			} else {
+				console.log(err);
+				callback('Error');
+			}
+		} else {
+			callback('Success');
+			console.log('User created!');
+		}
 	});
 };
 
 UsersDB.prototype.updateUser = function(username, updateInfo, callback) {
 	this.Users.findOneAndUpdate({ username: username }, updateInfo, function(err, resultUser) {
-		if(err) 
-			throw err;
-		if(err)
+		if(err) {
+			console.log(err);
 			callback(null);
-		else
+		} else {
+			console.log(resultUser);
 			callback(resultUser);
-		console.log(resultUser);
+		}
 	});
 };
 
 UsersDB.prototype.deleteUser = function(username, callback) {
 	// find the user with id 4
 	this.Users.findOneAndRemove({ username: username }, function(err) {
-		if(err) 
-			throw err;
-		if(err)
+		if(err) {
+			console.log(err);
 			callback(false);
-		else
+		} else {
 			callback(true);
-		console.log('User deleted!');
+			console.log('User deleted!');
+		}
 	});
 };

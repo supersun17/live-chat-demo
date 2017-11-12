@@ -2,8 +2,11 @@
 
 module.exports = function(app) {
 
+	// controllers
 	var index = require('./controllers/index');
+	var chatroom = require('./controllers/chatroom');
 
+	// routes
 	app.route(['/','/home'])
 	.get(index.home);
 
@@ -12,8 +15,6 @@ module.exports = function(app) {
 
 	app.route('/projects')
 	.get(index.projects);
-
-	var chatroom = require('./controllers/chatroom');
 
 	app.route(['/chatroom-auth','/chatroom'])
 	.get(chatroom.authentication)

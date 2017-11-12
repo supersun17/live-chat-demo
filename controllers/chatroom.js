@@ -41,12 +41,9 @@ exports.registration = function(req,res) {
 		var username = req.body.username;
 		var password = req.body.password;
 			
-		Users.regUser(username, function(result) {
-			if(result) {
-				res.json({ status: "Failed" });
-			} else {
-				res.json({ status: "Success" });
-			}
+		Users.regUser({ username: username, password: password }, function(result) {
+			//'Dup', 'Error', 'Success'
+			res.json({ status: result });
 		});	
 	}
 }

@@ -40,31 +40,32 @@
         <!-- form for login -->
         <form id="form-login">
           <div>
-            <input name="login-username" type="text" placeholder="Type in Username:" required style="width: 300px" onclick="stateSwitch('waiting')" onblur="checkUserName(this.value)">
+            <input name="login-username" type="text" placeholder="Username:" required style="width: 300px" onclick="stateSwitch('waiting')" onblur="checkUserName(this.value)">
             <span id="state" class="label label-default">waiting</span>
           </div>
           <br>
           <div>
-            <input name="login-pw" type="password" placeholder="Type in Password:" required secure style="width: 300px;visibility: hidden;">
+            <input name="login-pw" type="password" placeholder="Password:" required secure style="width: 300px;display: none;">
+            <input type="hidden" name="login-pw-hash">
           </div>
           <br>
           <div>
-            <button id="login-submit" type="submit" class="btn btn-lg btn-primary" style="visibility: hidden;">Login</button>
+            <button id="login-submit" type="submit" class="btn btn-lg btn-primary" style="display: none;">Login</button>
           </div>
         </form>
         <!-- form for register -->
         <form id="form-reg" style="display: none;">
           <div>
-            <input name="reg-username" type="text" placeholder="Type in Username:" required style="width: 300px" onclick="stateSwitch('waiting')" onblur="checkUserName(this.value)">
-            <span id="state" class="label label-default">waiting</span>
+            <input name="reg-username" type="text" placeholder="Username:" required style="width: 300px">
           </div>
           <br>
           <div>
-            <input name="reg-pw" type="password" placeholder="Type in Password:" required secure style="width: 300px;">
+            <input name="reg-pw" type="password" placeholder="Password:" required secure style="width: 300px;">
           </div>
           <br>
           <div>
             <input name="reg-cfmpw" type="password" placeholder="Confirm Password:" required secure style="width: 300px;">
+            <input type="hidden" name="reg-cfmpw-hash">
           </div>
           <br>
           <div>
@@ -78,7 +79,18 @@
   <!-- JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
+  <script type="text/javascript">
+    $('input[name=login-pw]').blur(function(e) {
+      var password = $('input[name=login-pw]').val();
+      $('input[name=login-pw-hash]').val(CryptoJS.MD5(password));
+    });
+    $('input[name=reg-cfmpw]').blur(function(e) {
+      var password = $('input[name=reg-cfmpw]').val();
+      $('input[name=reg-cfmpw-hash]').val(CryptoJS.MD5(password));
+    });
+  </script>
   <script type="text/javascript">
     function checkUserName(username) {
       if(username != "") {
@@ -93,11 +105,12 @@
               if(confirm('Username not found, register?')) {
                 $('#form-login').hide();
                 $('#form-reg').show();
+                $('input[name=reg-username]').val($('input[name=login-username]').val());
               }              
             } else if(res.status == 'Found') {
               stateSwitch('success');
-              $('input[name=lgin-pw]').visibility(true);
-              $('#login-submit').visibility(true);
+              $('input[name=login-pw]').show();
+              $('#login-submit').show();
             } else {
               stateSwitch('waiting');
               alert('Error');
@@ -141,9 +154,9 @@
     function login() {
       var user = {
         username: $('input[name=login-username]').val(),
-        password: $('input[name=login-pwhash]').val()
+        password: $('input[name=login-pw-hash]').val()
       }
-      console.log(user);
+      // console.log(user);
       $.ajax({
         type: "POST",
         dataType:"json",
@@ -155,9 +168,8 @@
             alert('Incorrect password');
           } else if(res.status == 'Found') {
             stateSwitch('success');
-            
             // redirect afterward
-
+            window.location.href = '/chatroom-main';
           } else {
             stateSwitch('waiting');
             alert('Error');
@@ -172,23 +184,25 @@
     function reg() {
       var newAccount = {
         username: $('input[name=reg-username]').val(),
-        password: $('input[name=reg-pwhash]').val()
+        password: $('input[name=reg-cfmpw-hash]').val()
       }
-      console.log(newAccount);
+      // console.log(newAccount);
       $.ajax({
         type: "POST",
         dataType:"json",
         url: '/chatroom-reg',
         data: newAccount,
         success: function(res) {
-          if(res.status == 'Failed') {
+          if(res.status == 'Dup') {
             stateSwitch('failed');
-            alert('Error');
+            alert('Duplicate Username');
           } else if(res.status == 'Success') {
             stateSwitch('success');
-
             // redirect afterward
-
+            window.location.href = '/chatroom-main';
+          } else {
+            stateSwitch('waiting');
+            alert('Error');
           }
         },
         error: function(error) {
