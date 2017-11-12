@@ -1,5 +1,6 @@
 'use strict'
 
+// Express setup
 var express = require('express'), 
 	app = express(), 
 	http = require('http'), 
@@ -13,8 +14,10 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+// Routes
 var routes = require('./routes')(app);
 
+// Session managment
 var session = require('express-session'), 
 	redisStore = require('connect-redis')(session), 
 	redis = require('redis'), 
@@ -32,6 +35,11 @@ app.use(session({
 	resave: false
 }));
 
+// Setup MongoDB
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/mingsun-aboutme', { useMongoClient: true });
+
+// Start server
 var server = http.createServer(app);
 server.listen(8080, function() {
 	console.log('listening');
