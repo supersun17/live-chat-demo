@@ -37,14 +37,38 @@
         <div class="jumbotron">
         <h1>Chat Room Register/Login</h1>
         <p>This register requires no password, only an User name for message record.</p>
-        <form id="form-auth">
+        <!-- form for login -->
+        <form id="form-login">
           <div>
-            <input name="username" placeholder="Type in User Name:" required style="width: 300px" onclick="stateSwitch('waiting')">
+            <input name="login-username" type="text" placeholder="Type in Username:" required style="width: 300px" onclick="stateSwitch('waiting')" onblur="checkUserName(this.value)">
             <span id="state" class="label label-default">waiting</span>
           </div>
           <br>
           <div>
-            <button id="btn-submit" type="submit" class="btn btn-lg btn-primary">Login</button>
+            <input name="login-pw" type="password" placeholder="Type in Password:" required secure style="width: 300px;visibility: hidden;">
+          </div>
+          <br>
+          <div>
+            <button id="login-submit" type="submit" class="btn btn-lg btn-primary" style="visibility: hidden;">Login</button>
+          </div>
+        </form>
+        <!-- form for register -->
+        <form id="form-reg" style="display: none;">
+          <div>
+            <input name="reg-username" type="text" placeholder="Type in Username:" required style="width: 300px" onclick="stateSwitch('waiting')" onblur="checkUserName(this.value)">
+            <span id="state" class="label label-default">waiting</span>
+          </div>
+          <br>
+          <div>
+            <input name="reg-pw" type="password" placeholder="Type in Password:" required secure style="width: 300px;">
+          </div>
+          <br>
+          <div>
+            <input name="reg-cfmpw" type="password" placeholder="Confirm Password:" required secure style="width: 300px;">
+          </div>
+          <br>
+          <div>
+            <button id="reg-submit" type="submit" class="btn btn-lg btn-primary">Register</button>
           </div>
         </form>
       </div>
@@ -56,34 +80,34 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script type="text/javascript">
-    $('#form-auth').submit(function(e) {
-      e.preventDefault();
-      submit();
-    });
-
-    function submit() {
-      var newAccount = {
-        username: $('input[name=username]').val(),
-      }
-        console.log(newAccount);
-      $.ajax({
-        type: "POST",
-        dataType:"json",
-        url: '/chatroom-auth',
-        data: newAccount,
-        success: function(res) {
-          if(res.status == 'DUP') {
-            alert('This username is already taken');
-            stateSwitch('failed');
-          } else if(res.status == 'Done') {
-            alert('Your username is registered');
-            stateSwitch('success');
+    function checkUserName(username) {
+      if(username != "") {
+        $.ajax({
+          type: "GET",
+          dataType:"json",
+          contentType: 'application/json',
+          url: '/chatroom-auth?username='+username,
+          success: function(res) {
+            if(res.status == 'Not Found') {
+              stateSwitch('waiting');
+              if(confirm('Username not found, register?')) {
+                $('#form-login').hide();
+                $('#form-reg').show();
+              }              
+            } else if(res.status == 'Found') {
+              stateSwitch('success');
+              $('input[name=lgin-pw]').visibility(true);
+              $('#login-submit').visibility(true);
+            } else {
+              stateSwitch('waiting');
+              alert('Error');
+            }
+          },
+          error: function(error) {
+            console.log(error.responseText);
           }
-        },
-        error: function(error) {
-          console.log(error.responseText);
-        }
-      });
+        });
+      }
     }
 
     function stateSwitch(state) {
@@ -101,7 +125,79 @@
           break;
       }
     }
+  </script>
+
+  <script type="text/javascript">
+    $('#form-login').submit(function(e) {
+      e.preventDefault();
+      login();
+    });
+
+    $('#form-reg').submit(function(e) {
+      e.preventDefault();
+      reg();
+    });
+
+    function login() {
+      var user = {
+        username: $('input[name=login-username]').val(),
+        password: $('input[name=login-pwhash]').val()
+      }
+      console.log(user);
+      $.ajax({
+        type: "POST",
+        dataType:"json",
+        url: '/chatroom-auth',
+        data: user,
+        success: function(res) {
+          if(res.status == 'Not Found') {
+            stateSwitch('failed');
+            alert('Incorrect password');
+          } else if(res.status == 'Found') {
+            stateSwitch('success');
+            
+            // redirect afterward
+
+          } else {
+            stateSwitch('waiting');
+            alert('Error');
+          }
+        },
+        error: function(error) {
+          console.log(error.responseText);
+        }
+      });
+    }
+
+    function reg() {
+      var newAccount = {
+        username: $('input[name=reg-username]').val(),
+        password: $('input[name=reg-pwhash]').val()
+      }
+      console.log(newAccount);
+      $.ajax({
+        type: "POST",
+        dataType:"json",
+        url: '/chatroom-reg',
+        data: newAccount,
+        success: function(res) {
+          if(res.status == 'Failed') {
+            stateSwitch('failed');
+            alert('Error');
+          } else if(res.status == 'Success') {
+            stateSwitch('success');
+
+            // redirect afterward
+
+          }
+        },
+        error: function(error) {
+          console.log(error.responseText);
+        }
+      });
+    }
 
   </script>
+
 </body>
 </html>

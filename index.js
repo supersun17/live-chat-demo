@@ -37,7 +37,7 @@ app.use(session({
 
 // Setup MongoDB
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/mingsun-chat');
+mongoose.connect('mongodb://localhost/mingsun-aboutme', { useMongoClient: true });
 
 // Start server
 var server = http.createServer(app);

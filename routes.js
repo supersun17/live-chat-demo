@@ -19,6 +19,9 @@ module.exports = function(app) {
 	.get(chatroom.authentication)
 	.post(chatroom.authentication);
 
+	app.route(['/chatroom-reg'])
+	.post(chatroom.registration);
+
 	app.route('/chatroom-main')
 	.get(chatroom.main);
 

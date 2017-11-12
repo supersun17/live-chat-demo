@@ -1,18 +1,104 @@
 'use strict'
 
-module.exports = Users;
+module.exports = UsersDB;
 
-function Users() {
+function UsersDB() {
+	var mongoose = require('mongoose');
+	var Schema = mongoose.Schema;
+
+	var userSchema = new Schema({
+		name: String,
+		username: { type: String, required: true, unique: true },
+		password: { type: String, required: true },
+		admin: Boolean,
+		address: {
+			street: String,
+			city: String,
+			state: String,
+			zipcode: String
+		},
+		bio: {
+			age: Number,
+			sex: String
+		},
+		created_at: { type: Date, require: true }
+	});
+
+	// the default values
+	userSchema.pre('save', function(next) {
+		// get the current date
+		var currentDate = new Date();
+
+		// if created_at doesn't exist, add to that field
+		if(!this.created_at) {
+			this.created_at = currentDate;
+		}
+
+		next();
+	});
+
+	this.Users = mongoose.model('Users', userSchema);
 }
 
-Users.prototype.getUser = function(email) {
+UsersDB.prototype.getUser = function(username, callback) {
+	this.Users.find({ username: username }, function(err, resultUser) {
+		if(err) 
+			throw err;
+		if(err)
+			callback(null);
+		else
+			callback(resultUser);
+		console.log(resultUser);
+	});
+};
 
+UsersDB.prototype.loginUser = function(user, callback) {
+	this.Users.find(user, function(err, resultUser) {
+		if(err) 
+			throw err;
+		if(err)
+			callback(null);
+		else
+			callback(resultUser);
+		console.log(resultUser);
+	});
 }
 
-Users.prototype.saveUser = function(user) {
+UsersDB.prototype.regUser = function(user, callback) {
+	var newUser = this.Users(user);
 
-}
+	newUser.save(function(err) {
+		if(err) 
+			throw err;
+		if(err) 
+			callback(false);
+		else 
+			callback(true);
+		console.log('User created!');
+	});
+};
 
-Users.prototype.updateUser = function(user) {
-	
-}
+UsersDB.prototype.updateUser = function(username, updateInfo, callback) {
+	this.Users.findOneAndUpdate({ username: username }, updateInfo, function(err, resultUser) {
+		if(err) 
+			throw err;
+		if(err)
+			callback(null);
+		else
+			callback(resultUser);
+		console.log(resultUser);
+	});
+};
+
+UsersDB.prototype.deleteUser = function(username, callback) {
+	// find the user with id 4
+	this.Users.findOneAndRemove({ username: username }, function(err) {
+		if(err) 
+			throw err;
+		if(err)
+			callback(false);
+		else
+			callback(true);
+		console.log('User deleted!');
+	});
+};
