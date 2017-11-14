@@ -4,7 +4,7 @@ body {
   background-repeat: repeat-y;
   background-size: cover;
   padding-top: 70px;
-  padding-bottom: 30px;
+  padding-bottom: 70px;
 } 
 h1 {
   text-align: center;
@@ -17,4 +17,8 @@ h3 {
 }
 .jumbotron {
   opacity: 0.9;
+}
+.carousel-inner img {
+  width: 576px;
+  height: 800px;
 }
