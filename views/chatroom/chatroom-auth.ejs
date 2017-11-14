@@ -20,6 +20,44 @@
     p {
       text-align: center;
     }
+    .animate-0 {
+      animation-name: rainbow;
+      animation-duration: 4s;
+      animation-delay: 0s;
+      animation-iteration-count: infinite;
+    }
+    .animate-1 {
+      animation-name: rainbow;
+      animation-duration: 4s;
+      animation-delay: 0.3s;
+      animation-iteration-count: infinite;
+    }
+    .animate-2 {
+      animation-name: rainbow;
+      animation-duration: 4s;
+      animation-delay: 0.6s;
+      animation-iteration-count: infinite;
+    }
+    .animate-3 {
+      animation-name: rainbow;
+      animation-duration: 4s;
+      animation-delay: 0.9s;
+      animation-iteration-count: infinite;
+    }
+    .animate-4 {
+      animation-name: rainbow;
+      animation-duration: 4s;
+      animation-delay: 1.2s;
+      animation-iteration-count: infinite;
+    }
+    @keyframes rainbow {
+      0%   {background-color: red;}
+      20%  {background-color: orange;}
+      40%  {background-color: yellow;}
+      60%  {background-color: green;}
+      80%  {background-color: blue;}
+      100% {background-color: purple;}
+    }
   </style>
 </head>
 <body>
@@ -37,6 +75,7 @@
         <div class="jumbotron">
         <h1>Chat Room Register/Login</h1>
         <p>This is not a commercial website. So that the registration password can be anything, the Email address is not important. Once logged in, just send messages and post images around.</p>
+        <p><span class="animate-0"> Plan: use</span><span class="animate-1"> Vue.js</span><span class="animate-2"> to make a </span><span class="animate-3">cross-platform</span><span class="animate-4"> chatroom.</span></p>
         <!-- form for login -->
         <form id="form-login">
           <div>
