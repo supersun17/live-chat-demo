@@ -1,7 +1,7 @@
 body {
   background-image: url("/images/helena-hertz-295994.jpg");
   background-position: top;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-size: cover;
   padding-top: 70px;
   padding-bottom: 30px;
